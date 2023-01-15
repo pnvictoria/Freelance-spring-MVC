@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Freelance</title>
+</head>
+<body>
+<div>
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <div class="topnav">
+            <a href="./admin/main">Admin panel</a>
+            <a href="./user/contact">Contact</a>
+            <a href="#" th:href="@{/logout}">Log Out</a>
+        </div>
+    </div>
+    <div sec:authorize="hasAuthority('USER_CUSTOMER') or hasAuthority('USER_EXECUTOR')">
+        <div class="topnav">
+            <a href="./user/account">Own page</a>
+            <a href="./user/orders">Orders</a>
+            <a href="./user/executors">Executors</a>
+            <a href="./user/customers">Customers</a>
+            <a href="./user/contact">Contact</a>
+            <a href="#" th:href="@{/logout}">Log Out</a>
+        </div>
+    </div>
+
+
+    <h1>Start page</h1>
+    <form>
+        <input type="submit" value="Sign in" formaction="login"/>
+        <input type="submit" value="Sign up" formaction="registration"/>
+    </form>
+
+    </div>
+</body>
+</html>

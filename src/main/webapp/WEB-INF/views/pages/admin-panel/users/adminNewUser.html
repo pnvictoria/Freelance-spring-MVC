@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New user</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/admin/accounts/new}" th:object="${account}">
+        <br>
+        <div>
+            <label for="name">Enter name: </label>
+            <input type="text" th:field="*{name}" id="name"/>
+        </div>
+        <br>
+        <div>
+            <label for="surname">Enter surname: </label>
+            <input type="text" th:field="*{surname}" id="surname"/>
+        </div>
+        <br>
+        <div>
+            <label for="email">Enter email: </label>
+            <input type="text" th:field="*{email}" id="email"/>
+        </div>
+        <br>
+        <div>
+            <label for="password">Enter password: </label>
+            <input type="text" th:field="*{password}" id="password"/>
+        </div>
+        <br>
+        <div>
+            <label for="phone">Enter phone: </label>
+            <input type="text" th:field="*{phone}" id="phone"/>
+        </div>
+        <br>
+        <div>
+            <label for="description">Enter description: </label>
+            <input type="text" th:field="*{description}" id="description"/>
+        </div>
+        <br>
+        <div>
+            <label>Role</label>
+            <select th:field="*{role.id}">
+                <option value="2">Customer</option>
+                <option value="3">Executor</option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <label>Country</label>
+            <select th:field="*{country.countryId}">
+                <option th:each="c : ${countries}" th:value="${c.countryId}" th:text="${c.countryName}"></option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <label>Sex</label>
+            <select th:field="*{sex}">
+                <option value="true">Male</option>
+                <option value="false">Female</option>
+            </select>
+        </div>
+        <br>
+        <input type="submit" value="Create!"/>
+    </form>
+    <br>
+    <h4><a href="../main">Main page</a></h4>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New country</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{new}" th:object="${country}">
+    <label for="countryName">Enter name: </label>
+    <input type="text" th:field="*{countryName}" id="countryName"/>
+    <br>
+    <input type="submit" value="New"/>
+</form>
+<br>
+<h4><a href="../">Country</a></h4>
+</body>
+</html>

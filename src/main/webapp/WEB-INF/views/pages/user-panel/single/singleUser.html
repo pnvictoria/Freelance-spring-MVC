@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .order-block {
+            height: 100%;
+            width: 30%;
+            background: darkgray;
+            border: 1px;
+            margin: 20px;
+            padding: 10px;
+        }
+        .order-block h3 {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div>
+    <div sec:authorize="hasAuthority('USER_CUSTOMER') or hasAuthority('USER_EXECUTOR')">
+        <div class="topnav">
+            <a href="../account">Own page</a>
+            <a href="../orders">Orders</a>
+            <a href="../executors">Executors</a>
+            <a href="../customers">Customers</a>
+            <a href="../contact">Contact</a>
+            <a href="#" th:href="@{/logout}">Log Out</a>
+        </div>
+    </div>
+    <hr>
+    <div th:object="${account}">
+
+        <div th:text="${account.name}"></div>
+        <div th:text="${account.surname}"></div>
+        <p th:utext="${account.phone}">...</p>
+        <p th:utext="${account.country.countryName}">...</p>
+        <br>
+        <p th:utext="${account.description}">...</p>
+        <br>
+    </div>
+    <hr>
+    <div th:switch="${account.role.name}">
+        <div th:case="'USER_CUSTOMER'">
+            <h1>Own orders</h1>
+            <div th:each="order : ${personOrders}" class="order-block">
+                <div>
+                    <h3 th:utext="${order.titleOrder}">...</h3>
+                    <div>Price:</div><div th:utext="${order.price}">...</div>
+                    <p th:utext="${order.descriptionOrder}">...</p>
+                </div>
+                <form th:action="@{orders/{id}(id=${order.getOrderId()})}">
+                    <input type="submit" value="Open"/>
+                </form>
+            </div>
+        </div>
+
+        <div th:case="'USER_EXECUTOR'">
+            <h1>Own requests</h1>
+            <div th:each="request : ${requests}" class="order-block">
+                <div>
+                    <p th:utext="${request.order.titleOrder}">...</p>
+                    <p th:utext="${request.requestDescription}">...</p>
+                    <form th:action="@{../orders/{id}(id=${request.order.getOrderId()})}">
+                        <input type="submit" value="Open"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

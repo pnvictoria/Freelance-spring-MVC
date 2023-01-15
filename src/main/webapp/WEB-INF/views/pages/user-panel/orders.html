@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Orders</title>
+
+    <style>
+        .order-block {
+            height: 100%;
+            width: 30%;
+            background: darkgray;
+            border: 1px;
+            margin: 20px;
+            padding: 10px;
+        }
+        .order-block h3 {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div>
+    <div sec:authorize="hasAuthority('USER_CUSTOMER') or hasAuthority('USER_EXECUTOR')">
+        <div class="topnav">
+            <a href="../user/account">Own page</a>
+            <a href="../user/orders">Orders</a>
+            <a href="../user/executors">Executors</a>
+            <a href="../user/customers">Customers</a>
+            <a href="../user/contact">Contact</a>
+            <a href="#" th:href="@{/logout}">Log Out</a>
+        </div>
+    </div>
+
+    <div sec:authorize="hasAuthority('USER_CUSTOMER')" class="order-block">
+        <div th:text="${message}"></div>
+        <form th:method="POST" th:action="@{orders}" th:object="${order}">
+            <h4>Add new order</h4>
+            <div>
+                <label for="titleOrder">Enter title: </label>
+                <input type="text" th:field="*{titleOrder}" id="titleOrder"/>
+            </div>
+            <div>
+                <label for="descriptionOrder">Enter description: </label>
+                <input type="text" th:field="*{descriptionOrder}" id="descriptionOrder"/>
+            </div>
+            <div>
+                <label for="price">Enter price: </label>
+                <input type="text" th:field="*{price}" id="price"/>
+            </div>
+            <div>
+                <input type="submit" value="Create!"/>
+            </div>
+        </form>
+    </div>
+    <div>
+        <h1>All orders</h1>
+        <div th:each="order : ${orders}" class="order-block">
+            <div>
+                <h3 th:utext="${order.titleOrder}">...</h3>
+                <div>Price:</div><div th:utext="${order.price}">...</div>
+                <p th:utext="${order.descriptionOrder}">...</p>
+            </div>
+            <form th:action="@{orders/{id}(id=${order.getOrderId()})}">
+                <input type="submit" value="Open"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>title</th>
+
+        <th>EDIT</th>
+        <th>DELETE</th>
+    </tr>
+    <tr th:each="country : ${countries}">
+        <td th:utext="${country.countryId}">...</td>
+        <td th:utext="${country.countryName}">...</td>
+        <td>
+            <form th:action="@{edit/{id}(id=${country.getCountryId()})}">
+                <input type="submit" value="Edit"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="POST" th:action="@{delete/{id}(id=${country.getCountryId()})}" th:object="${country}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<br>
+<form>
+    <input type="submit" value="Add" formaction="new"/>
+    <input type="submit" value="Main page" formaction="../main"/>
+</form>
+
+</body>
+</html>

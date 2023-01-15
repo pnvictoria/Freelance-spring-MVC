@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Executors</title>
+
+    <style>
+        .order-block {
+            height: 100%;
+            width: 30%;
+            background: darkgray;
+            border: 1px;
+            margin: 20px;
+            padding: 10px;
+        }
+        .order-block h3 {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div sec:authorize="hasAuthority('USER_CUSTOMER') or hasAuthority('USER_EXECUTOR')">
+    <div class="topnav">
+        <a href="../user/account">Own page</a>
+        <a href="../user/orders">Orders</a>
+        <a href="../user/executors">Executors</a>
+        <a href="../user/customers">Customers</a>
+        <a href="../user/contact">Contact</a>
+        <a href="#" th:href="@{/logout}">Log Out</a>
+    </div>
+</div>
+<div>
+    <h1>Executors</h1>
+    <div th:each="account : ${executors}" class="order-block">
+        <div>
+            <p th:utext="${account.name}">...</p>
+            <p th:utext="${account.surname}">...</p>
+            <p th:utext="${account.email}">...</p>
+            <p th:utext="${account.description}">...</p>
+        </div>
+        <form th:action="@{executors/{id}(id=${account.id})}">
+            <input type="submit" value="Open"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>
